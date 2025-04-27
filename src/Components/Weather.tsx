@@ -1,4 +1,4 @@
-import axios from 'axios';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {useEffect, useRef, useState} from 'react'
 import '../App.css';
 import Search_Icon from '../assets/Search_Icon.png';
@@ -13,10 +13,10 @@ import Mist from '../assets/Mist.png'
 
 
 function Weather() {
-  const inputRef = useRef()
+  const inputRef = useRef();
   const [weatherData, setWeatherData] = useState(false);
 
-const Icons: unknown = {
+const Icons = {
   "01d": clear,
   "01n": clear,
   "02d": Cloudy,
@@ -51,7 +51,7 @@ try {
 
       const response = await fetch(url)
       const fetchData = await response.json();
-      const myIcons = Icons[fetchData.weather[0].icon] || clear;
+      const myIcons  = Icons[fetchData.weather[0].icon] || clear;
 
       setWeatherData({
         humidity: fetchData.main.humidity,
@@ -82,7 +82,6 @@ getWeather("Sandton")
         <img src={Search_Icon} className='searchIcon' onClick={()=>getWeather(inputRef.current.value)} alt='searchIcon'/>
       </div>
 
-{/* {weatherData?<></>:<></>} */}
 
       <img src={weatherData.icon} alt='clear' className='weather-icon' />
       <p className='temperature'>{weatherData.temperature}°C</p>
