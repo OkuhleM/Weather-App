@@ -88,10 +88,12 @@ function Weather() {
     getWeather("Sandton");
   }, []);
 
-   if (weatherData) {
-        return <p>Loading...</p>;
-      }
+   if (!weatherData) {
+    <div className="Container">
 
+      return <p>Loading...</p>;
+    </div>
+      }
   return (
     
     <div className="Container">
