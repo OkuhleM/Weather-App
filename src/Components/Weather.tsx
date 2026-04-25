@@ -23,6 +23,7 @@ function Weather() {
   const inputRef = useRef<HTMLInputElement | null>(null);
   // const [weatherData, setWeatherData] = useState(false);
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  
 
   const Icons = {
     "01d": clear,
