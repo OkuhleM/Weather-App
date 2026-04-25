@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../App.css";
 import Search_Icon from "../assets/Search_Icon.png";
 import clear from "../assets/clear.png";
