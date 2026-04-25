@@ -47,7 +47,7 @@ function Weather() {
 
   const ApiKey = import.meta.env.VITE_WEATHER_API_KEY;
 
-  const getWeather = async (city: unknown) => {
+  const getWeather = async (city: string) => {
     if (city === "") {
       alert("City Name cannot be Empty!");
       return;
@@ -106,7 +106,7 @@ function Weather() {
         />
       </div>
 
-      <img src={weatherData.icon} alt="clear" className="weather-icon" />
+      <img src={weatherData.icon} alt="Weather" className="weather-icon" />
       <p className="temperature">{weatherData.temperature}°C</p>
       <p className="location">{weatherData.location}</p>
 
