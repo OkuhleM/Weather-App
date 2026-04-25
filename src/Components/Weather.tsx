@@ -65,9 +65,11 @@ function Weather() {
       }
 
       console.log("fetchData", fetchData);
-      // const myIcons = Icons[fetchData?.weather?.[0].icon] || clear;
 
-      const myIcons = Icons[fetchData.weather[0].icon] || clear;
+      // const myIcons = Icons[fetchData.weather[0].icon] || clear;
+      const iconCode = fetchData?.weather?.[0]?.icon;
+      const myIcons = iconCode ? Icons[iconCode] || clear : clear;
+
       console.log('myIcons', myIcons)
       setWeatherData({
         humidity: fetchData.main.humidity,
@@ -84,7 +86,7 @@ function Weather() {
     }
   };
 
-  console.log("weatherData: ", weatherData.icon);
+  console.log("weatherData: ", weatherData);
 
   useEffect(() => {
     getWeather("Sandton");
