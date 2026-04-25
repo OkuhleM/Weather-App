@@ -60,10 +60,6 @@ function Weather() {
       console.log("response", response);
       const fetchData = await response.json();
 
-      if (!fetchData || !fetchData.weatherData) {
-        return <p>Loading...</p>;
-      }
-
       console.log("fetchData", fetchData);
 
       // const myIcons = Icons[fetchData.weather[0].icon] || clear;
@@ -92,7 +88,12 @@ function Weather() {
     getWeather("Sandton");
   }, []);
 
+   if (weatherData) {
+        return <p>Loading...</p>;
+      }
+
   return (
+    
     <div className="Container">
       {/* <h1>Weather</h1> */}
       <div className="search-bar">
