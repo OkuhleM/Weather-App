@@ -21,31 +21,28 @@ function Weather() {
   };
 
   const inputRef = useRef<HTMLInputElement | null>(null);
-  // const [weatherData, setWeatherData] = useState(false);
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 
-  const Icons = {
-    "01d": clear,
-    "01n": clear,
-    "02d": Cloudy,
-    "02n": Cloudy,
-    "03d": clear,
-    "03n": clear,
-    "04d": Cloudy,
-    "04n": Cloudy,
-    "09d": Rainy,
-    "09n": Rainy,
-    "10d": Rainy,
-    "10n": Rainy,
-    "11d": thunderstorm,
-    "11n": thunderstorm,
-    "13d": snow,
-    "13n": snow,
-    "50d": Mist,
-    "50n": Mist,
+  const Icons: Record<number, string> = {
+    0: clear,
+    1: clear,
+    3: Cloudy,
+    45: Cloudy,
+    48: clear,
+    51: clear,
+    53: Cloudy,
+    55: Cloudy,
+    61: Rainy,
+    63: Rainy,
+    65: Rainy,
+    71: Rainy,
+    73: thunderstorm,
+    75: thunderstorm,
+    80: snow,
+    81: snow,
+    82: Mist,
+    95: Mist,
   };
-
-  // const ApiKey = import.meta.env.VITE_WEATHER_API_KEY;
 
   const getWeather = async (city: string) => {
     if (city === "") {
@@ -69,51 +66,30 @@ function Weather() {
       const place = geoData.results[0];
       const { latitude, longitude, name } = place;
 
-      // const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${ApiKey}`;
-      const url = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,wind_speed_10m,relative_humidity_2m`);
+      const url = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,wind_speed_10m,relative_humidity_2m,weather_code`,
+      );
 
+      const weatherData = await url.json();
+      console.log("weatherData", weatherData);
 
-          const weatherData = await url.json();
-          console.log('weatherData', weatherData)
+      const code = weatherData.current.weather_code;
+      const icon = Icons[code] || clear;
 
-      // const response = await fetch(url);
-      // console.log("response", response);
-      // const fetchData = await response.json();
-
-      // console.log("fetchData", fetchData);
-
-      // const myIcons = Icons[fetchData.weather[0].icon] || clear;
-      // const iconCode = fetchData?.weather?.[0]?.icon;
-      // console.log("iconCode", iconCode);
-      // const myIcons = iconCode ? Icons[iconCode] || clear : clear;
-
-      // console.log("myIcons", myIcons);
-
-      // setWeatherData({
-      //   humidity: fetchData.main.humidity,
-      //   windSpeed: fetchData.wind.speed,
-      //   temperature: Math.floor(fetchData.main.temp),
-      //   location: fetchData.name,
-      //   icon: myIcons,
-      // });
-
-setWeatherData({
-      temperature: Math.floor(weatherData.current.temperature_2m),
-      windSpeed: weatherData.current.wind_speed_10m,
-      humidity: weatherData.current.relative_humidity_2m,
-      location: name,
-      icon: clear
-    });
+      setWeatherData({
+        temperature: Math.floor(weatherData.current.temperature_2m),
+        windSpeed: weatherData.current.wind_speed_10m,
+        humidity: weatherData.current.relative_humidity_2m,
+        location: name,
+        icon: icon,
+      });
 
       console.log("weatherData", weatherData);
     } catch (error) {
-      // setWeatherData(WeatherData)
       console.log("error", error);
       console.error("Error in fetching data");
     }
   };
-
-  // console.log("weatherData: ", weatherData);
 
   useEffect(() => {
     getWeather("Sandton");
@@ -134,7 +110,6 @@ setWeatherData({
         <img
           src={Search_Icon}
           className="searchIcon"
-          // onClick={() => getWeather(inputRef.current.value)}
           onClick={() => getWeather(inputRef.current?.value || "")}
           alt="searchIcon"
         />
