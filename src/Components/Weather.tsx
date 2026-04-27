@@ -105,6 +105,9 @@ function Weather() {
   return (
     <div className="Container">
       {/* <h1>Weather</h1> */}
+      <div className="weather-card">
+
+
       <div className="search-bar">
         <input ref={inputRef} type="text" placeholder="Search" />
         <img
@@ -135,6 +138,7 @@ function Weather() {
             <span>Wind Speed</span>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

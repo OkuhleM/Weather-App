@@ -1,33 +1,20 @@
-.Container{
-  place-self: center;
-  padding: 40px;
-  border-radius: 10px;
-  background: linear-gradient(45deg, #31255a, #54416D);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
- 
+.search-bar img {
+  width: 50px;
+  padding: 15px;
+  border-radius: 50%;
+  background: #ebfffc;
+  cursor: pointer;
 }
 
-.search-bar img{
-width: 50px;
-padding: 15px;
-border-radius: 50%;
-background: #ebfffc;
-cursor: pointer;
-
-  
-}
-
-.search-bar input{
- height: 50px;
-border: none;
-outline: none;
-border-radius: 40px;
-padding-left: 25px;
-color: #626262;
-background: #ebfffc;
-font-size: 18px;
+.search-bar input {
+  height: 50px;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  padding-left: 25px;
+  color: #626262;
+  background: #ebfffc;
+  font-size: 18px;
 }
 
 .search-bar {
@@ -36,23 +23,23 @@ font-size: 18px;
   gap: 12px;
 }
 
-.weather-icon{
+.weather-icon {
   width: 150px;
   margin: 30px 0;
 }
 
-.temperature{
-  color: #fff;
-  font-size: 80px;
-  line-height: 1;
+.temperature {
+  font-size: 64px;
+  font-weight: bold;
+  text-shadow: 0 0 20px rgba(160, 100, 255, 0.6);
 }
 
-.location{
+.location {
   color: #fff;
   font-size: 40px;
 }
 
-.weather-data{
+.weather-data {
   width: 100%;
   margin-top: 40px;
   color: #fff;
@@ -60,20 +47,40 @@ font-size: 18px;
   justify-content: space-between;
 }
 
-.weather-data .data{
-display: flex;
-align-items: flex-start;
-gap: 12px;
-font-size: 22px;
+.weather-data .data {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 22px;
 }
 
-.weather-data .data span{
+.weather-data .data span {
   display: block;
   font-size: 16px;
-
 }
 
-.weather-data .data img{
-width: 26px;
-margin-top: 10px; 
+.weather-data .data img {
+  width: 26px;
+  margin-top: 10px;
+}
+
+.Container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #2b1055, #7597de);
+}
+
+.weather-card {
+  width: 400px;
+  padding: 25px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
