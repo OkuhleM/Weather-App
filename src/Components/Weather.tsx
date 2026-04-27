@@ -56,7 +56,6 @@ function Weather() {
       );
 
       const geoData = await geoRes.json();
-      console.log("geoData", geoData);
 
       if (!geoData.results || geoData.results.length === 0) {
         alert("City not found");
@@ -71,7 +70,6 @@ function Weather() {
       );
 
       const weatherData = await url.json();
-      console.log("weatherData", weatherData);
 
       const code = weatherData.current.weather_code;
       const icon = Icons[code] || clear;
@@ -84,9 +82,7 @@ function Weather() {
         icon: icon,
       });
 
-      console.log("weatherData", weatherData);
     } catch (error) {
-      console.log("error", error);
       console.error("Error in fetching data");
     }
   };
