@@ -23,7 +23,6 @@ function Weather() {
   const inputRef = useRef<HTMLInputElement | null>(null);
   // const [weatherData, setWeatherData] = useState(false);
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
-  
 
   const Icons = {
     "01d": clear,
@@ -46,7 +45,7 @@ function Weather() {
     "50n": Mist,
   };
 
-  const ApiKey = import.meta.env.VITE_WEATHER_API_KEY;
+  // const ApiKey = import.meta.env.VITE_WEATHER_API_KEY;
 
   const getWeather = async (city: string) => {
     if (city === "") {
@@ -55,48 +54,79 @@ function Weather() {
     }
 
     try {
-      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${ApiKey}`;
+      const geoRes = await fetch(
+        `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1`,
+      );
 
-      const response = await fetch(url);
-      console.log("response", response);
-      const fetchData = await response.json();
+      const geoData = await geoRes.json();
+      console.log("geoData", geoData);
 
-      console.log("fetchData", fetchData);
+      if (!geoData.results || geoData.results.length === 0) {
+        alert("City not found");
+        return;
+      }
+
+      const place = geoData.results[0];
+      const { latitude, longitude, name } = place;
+
+      // const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${ApiKey}`;
+      const url = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,wind_speed_10m,relative_humidity_2m`);
+
+
+          const weatherData = await url.json();
+          console.log('weatherData', weatherData)
+
+      // const response = await fetch(url);
+      // console.log("response", response);
+      // const fetchData = await response.json();
+
+      // console.log("fetchData", fetchData);
 
       // const myIcons = Icons[fetchData.weather[0].icon] || clear;
-      const iconCode = fetchData?.weather?.[0]?.icon;
-      const myIcons = iconCode ? Icons[iconCode] || clear : clear;
+      // const iconCode = fetchData?.weather?.[0]?.icon;
+      // console.log("iconCode", iconCode);
+      // const myIcons = iconCode ? Icons[iconCode] || clear : clear;
 
-      console.log('myIcons', myIcons)
-      setWeatherData({
-        humidity: fetchData.main.humidity,
-        windSpeed: fetchData.wind.speed,
-        temperature: Math.floor(fetchData.main.temp),
-        location: fetchData.name,
-        icon: myIcons,
-      });
+      // console.log("myIcons", myIcons);
+
+      // setWeatherData({
+      //   humidity: fetchData.main.humidity,
+      //   windSpeed: fetchData.wind.speed,
+      //   temperature: Math.floor(fetchData.main.temp),
+      //   location: fetchData.name,
+      //   icon: myIcons,
+      // });
+
+setWeatherData({
+      temperature: Math.floor(weatherData.current.temperature_2m),
+      windSpeed: weatherData.current.wind_speed_10m,
+      humidity: weatherData.current.relative_humidity_2m,
+      location: name,
+      icon: clear
+    });
+
       console.log("weatherData", weatherData);
     } catch (error) {
       // setWeatherData(WeatherData)
-      console.log('error', error)
+      console.log("error", error);
       console.error("Error in fetching data");
     }
   };
 
-  console.log("weatherData: ", weatherData);
+  // console.log("weatherData: ", weatherData);
 
   useEffect(() => {
     getWeather("Sandton");
   }, []);
 
-   if (!weatherData) {
-    <div className="Container">
-
-      return <p>Loading...</p>;
-    </div>
-      }
+  if (!weatherData) {
+    return (
+      <div className="Container">
+        <p>Loading...</p>
+      </div>
+    );
+  }
   return (
-    
     <div className="Container">
       {/* <h1>Weather</h1> */}
       <div className="search-bar">
@@ -104,7 +134,8 @@ function Weather() {
         <img
           src={Search_Icon}
           className="searchIcon"
-          onClick={() => getWeather(inputRef.current.value)}
+          // onClick={() => getWeather(inputRef.current.value)}
+          onClick={() => getWeather(inputRef.current?.value || "")}
           alt="searchIcon"
         />
       </div>
